@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- كود إثبات ملكية جوجل -->
 <meta name="google-site-verification" content="d3pqzpL2w4R1v-fMDsqD_QOWcwyzsdlfbXkR6z1DGzg" />
 <title>DANA & AFIA FOODS - دانة وعافية فودز | الكتالوج الذكي</title>
 <meta name="description" content="شركة دانة وعافية فودز - أجود أنواع البقوليات والمخللات والأعشاب والبهارات بجودة غذائية فاخرة 100%. اطلب الآن عبر الواتساب مباشرة.">
@@ -263,6 +264,7 @@ body::after {
   box-shadow: 0 4px 16px rgba(0,0,0,0.35);
 }
 
+/* تنسيقات السلايدر المتحرك */
 .slider-section{
   background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));
   padding:22px 20px;
@@ -704,10 +706,7 @@ body::after {
 <!-- الهيدر العلوي -->
 <header class="header">
   <div class="header-brand">
-    <video autoplay loop muted playsinline id="headerLogo" class="header-logo" style="width: auto; height: 52px; object-fit: contain;">
-      <source src="logo_animation.mp4" type="video/mp4">
-      متصفحك لا يدعم عرض الفيديو
-    </video>
+    <img id="headerLogo" class="header-logo" src="logo.png" alt="شعار دانة وعافية فودز">
     <div>
       <div class="header-title">DANA & AFIA</div>
       <div class="header-subtitle">دانة وعافية فودز - الكتالوج الذكي</div>
@@ -745,10 +744,814 @@ body::after {
 <!-- الهيرو سيشن -->
 <section class="hero-section">
   <img class="hero-banner-img" src="hero_banner.jpg" alt="Banner">
-  <video autoplay loop muted playsinline id="heroLogo" class="hero-logo" style="width: 85%; max-width: 340px; height: auto; object-fit: contain;">
-    <source src="logo_animation.mp4" type="video/mp4">
-    متصفحك لا يدعم عرض الفيديو
-  </video>
+  <img id="heroLogo" class="hero-logo" src="logo.png" alt="Dana Logo">
   <h1 class="hero-title">DANA & AFIA FOODS</h1>
   <div class="hero-desc">شركة دانة وعافية فودز • جودة غذائية فاخرة 100% للتوريد والجملة والتجزئة</div>
-  <div class="
+  <div class="hero-badges">
+    <div class="hero-badge">🌿 فرز آلي ونقاء فائق</div>
+    <div class="hero-badge">📦 تعبئة فاخرة ومحكمة</div>
+    <div class="hero-badge">🚚 شحن وتوزيع لكافة المحافظات</div>
+  </div>
+</section>
+
+<!-- السلايدر المتحرك تلقائياً كل 3 ثوانٍ -->
+<section class="slider-section">
+  <div class="slider-header">
+    <div class="slider-title">✦ أبرز منتجات دانة وعافية ✦</div>
+  </div>
+  <div class="slider-container" id="sliderContainer">
+    <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--accent-gold);font-size:13px">أضف منتجاتك لتظهر هنا في لوحة العرض الكبرى</div>
+  </div>
+  <button type="button" class="slider-nav-btn slider-prev" onclick="prevSlide()">❯</button>
+  <button type="button" class="slider-nav-btn slider-next" onclick="nextSlide()">❮</button>
+  <div class="slider-dots" id="sliderDots"></div>
+</section>
+
+<!-- المحتوى الرئيسي -->
+<main class="content">
+  <div class="catalog-header">
+    <div class="catalog-title-group">
+      <h2>كتالوج المنتجات</h2>
+      <p>اختر الفئة وتصفح منتجاتنا المميزة مع إمكانية الطلب المباشر عبر واتساب</p>
+    </div>
+    <div class="search-box-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث باسم المنتج أو الفئة..." oninput="handleSearch()">
+    </div>
+    <div style="background:var(--primary-color);color:var(--accent-gold);padding:7px 16px;border-radius:20px;font-size:12px;font-weight:800;border:1px solid var(--accent-gold)" id="productCount">0 منتج</div>
+  </div>
+
+  <!-- أزرار الفلترة حسب الأقسام -->
+  <div class="filters-bar">
+    <button type="button" class="filter-btn active" data-filter="all">الكل</button>
+    <button type="button" class="filter-btn" data-filter="بقوليات">🫘 بقوليات</button>
+    <button type="button" class="filter-btn" data-filter="مخللات">🥒 مخللات</button>
+    <button type="button" class="filter-btn" data-filter="اعشاب">🌿 أعشاب</button>
+    <button type="button" class="filter-btn" data-filter="بهارات">🌶️ بهارات</button>
+    <button type="button" class="filter-btn" data-filter="أخرى">📦 أخرى</button>
+  </div>
+
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <div style="font-size:52px">📦</div>
+    <h3 style="font-size:22px;color:var(--text-main);margin:12px 0;font-weight:900">الكتالوج جاهز لإضافة منتجاتك</h3>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:18px">سجل الدخول بحساب المشرف لإضافة أو تعديل أو إزالة المنتجات</p>
+  </div>
+
+  <div id="grid" class="grid"></div>
+</main>
+
+<footer class="footer">
+  <div><strong style="color:var(--accent-gold);font-size:13px">DANA & AFIA FOODS</strong> • شركة دانة وعافية للمنتجات الغذائية الفاخرة</div>
+  <div style="font-size:11px;color:#bbb;margin-top:6px;">تواصل فوري مع المبيعات وإدارة التوريدات: <strong>01090484624</strong></div>
+</footer>
+
+<!-- نافذة إضافة / تعديل منتج -->
+<div id="addModal" class="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="addModalTitle" class="modal-title">✨ إضافة منتج جديد</h3>
+      <div class="modal-close-btn" onclick="closeAddModal()">×</div>
+    </div>
+    <input type="hidden" id="editProductKey" value="">
+    <div style="display:grid;gap:12px;margin-top:6px">
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">اسم المنتج بالعربي *</label>
+        <input id="fName" class="form-input" placeholder="مثال: عدس أصفر تركي أو فلفل أسود ناعم">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">اسم المنتج بالإنجليزي (اختياري)</label>
+        <input id="fNameEn" class="form-input" placeholder="مثال: BLACK PEPPER">
+      </div>
+
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">اختر القسم *</label>
+        <div class="cat-selector">
+          <button type="button" class="cat-btn active" data-cat="بقوليات" onclick="selectCat(this)">
+            <span>🫘</span><span>بقوليات</span>
+          </button>
+          <button type="button" class="cat-btn" data-cat="مخللات" onclick="selectCat(this)">
+            <span>🥒</span><span>مخللات</span>
+          </button>
+          <button type="button" class="cat-btn" data-cat="اعشاب" onclick="selectCat(this)">
+            <span>🌿</span><span>أعشاب</span>
+          </button>
+          <button type="button" class="cat-btn" data-cat="بهارات" onclick="selectCat(this)">
+            <span>🌶️</span><span>بهارات</span>
+          </button>
+          <button type="button" class="cat-btn" data-cat="أخرى" onclick="selectCat(this)">
+            <span>📦</span><span>أخرى</span>
+          </button>
+        </div>
+        <input type="hidden" id="fCat" value="بقوليات">
+        <input type="hidden" id="fPackType" value="كيس">
+      </div>
+
+      <!-- الحقول الديناميكية الدقيقة لكل قسم -->
+      <div id="dynamicFieldsContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+
+      <div>
+        <label style="font-size:12px;font-weight:900;color:var(--primary-color);display:block;margin-bottom:6px">🖼️ صور المنتج أو ملفات PDF *</label>
+        <div class="media-upload-box" onclick="document.getElementById('fMediaFile').click()">
+          <div style="font-size:24px">📸 / 📄</div>
+          <div style="font-weight:800;font-size:12.5px;color:var(--primary-color)">اضغط لاختيار صور المنتج أو ملفات PDF</div>
+          <input type="file" id="fMediaFile" accept="image/*,application/pdf" multiple style="display:none">
+        </div>
+        <div class="media-preview-list" id="mediaPreviewList"></div>
+      </div>
+
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">وصف المنتج والملاحظات</label>
+        <textarea id="fDesc" class="form-input" placeholder="وصف الجودة أو التفاصيل..." style="min-height:75px;resize:vertical;"></textarea>
+      </div>
+
+      <button type="button" onclick="saveProduct()" style="width:100%;background:var(--primary-color);color:var(--accent-gold);padding:14px;border-radius:12px;font-weight:900;border:1px solid var(--accent-gold);cursor:pointer;font-size:15px;">💾 حفظ المنتج وإضافته للسحابة</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة طلب المنتج - المرحلة 1 -->
+<div id="orderModalStep1" class="modal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-header">
+      <h3 id="oName1" class="modal-title" style="font-size:17px">طلب منتج</h3>
+      <div class="modal-close-btn" onclick="closeOrderModal()">×</div>
+    </div>
+    
+    <div id="oImgContainer" class="card-img-container" style="height:220px; border-radius:14px; border:1px solid #E8DCC8; margin:8px 0; background:#fff;"></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
+      <span id="oCat1" style="background:var(--primary-color);color:var(--accent-gold);padding:4px 12px;border-radius:12px;font-size:11.5px;font-weight:800"></span>
+      <span id="oPackType1" style="background:#F5E6C8;color:#5A3D15;border:1px solid #E8DCC8;padding:4px 12px;border-radius:12px;font-size:11.5px;font-weight:800"></span>
+    </div>
+
+    <p id="oDesc1" style="font-size:12.5px;color:#555;line-height:1.5;margin:8px 0;background:#F9F6F0;padding:8px 12px;border-radius:8px;border:1px solid #EAE4D7;"></p>
+    
+    <div style="margin:14px 0">
+      <label style="font-size:13.5px;font-weight:900;color:var(--text-main);display:block;margin-bottom:8px">1️⃣ حدد الكمية المطلوبة:</label>
+      <div class="qty-control-wrapper">
+        <button type="button" class="qty-btn" onclick="stepQty(-1)">-</button>
+        <input id="oQty" type="number" min="1" value="1" style="flex:1;padding:10px;border:2px solid var(--primary-color);border-radius:10px;font-size:18px;font-weight:900;text-align:center;background:#F0F6E8;outline:none" oninput="updateQtyLabel()">
+        <button type="button" class="qty-btn" onclick="stepQty(1)">+</button>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button type="button" class="pack-btn active" data-pack="وحدة مفردة" onclick="selectPack(this)">وحدة مفردة (عبوة/برطمان/عبوة بهارات)</button>
+        <button type="button" class="pack-btn" data-pack="كرتونة كاملة" onclick="selectPack(this)">كرتونة كاملة</button>
+      </div>
+    </div>
+    
+    <div style="background:linear-gradient(135deg,#E8F4D8,#D8E2C8);border:1.5px solid #8A9A5B;border-radius:12px;padding:12px;text-align:center;margin:10px 0">
+      <div id="oQtyLabel" style="font-size:17px;font-weight:900;color:var(--primary-color)">1 وحدة</div>
+    </div>
+
+    <button type="button" class="btn-next" onclick="goToStep2()">التالي ➔ (إدخال بيانات العميل للتأكيد)</button>
+  </div>
+</div>
+
+<!-- نافذة طلب المنتج - المرحلة 2 -->
+<div id="orderModalStep2" class="modal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-header">
+      <h3 class="modal-title" style="font-size:17px">2️⃣ بيانات العميل وتأكيد الطلب</h3>
+      <div class="modal-close-btn" onclick="closeOrderModal()">×</div>
+    </div>
+
+    <div style="background:#F0F6E8;border:1.5px solid #C5D1B5;padding:12px;border-radius:10px;margin-bottom:14px;font-size:12.5px;color:var(--primary-color);font-weight:800;line-height:1.5" id="summaryBox"></div>
+
+    <div style="display:grid;gap:12px;">
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">اسم العميل / الشركة *</label>
+        <input id="cName" class="form-input" placeholder="أدخل اسمك أو اسم الشركة / المحل">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">رقم الهاتف / الواتساب *</label>
+        <input id="cPhone" type="tel" class="form-input" placeholder="مثال: 01000000000">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">عنوان التسليم والتفاصيل *</label>
+        <input id="cAddress" class="form-input" placeholder="المدينة، الحي، الشارع...">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:800;display:block;margin-bottom:4px">نوع النشاط التجاري *</label>
+        <select id="cBusiness" class="form-input">
+          <option>سوبر ماركت / هايبر ماركت</option>
+          <option>تاجر جملة / تجارة تجزئة</option>
+          <option>مطعم / فندق / كافيه</option>
+          <option>شركة توزيع وتوريدات غذائية</option>
+          <option>مستهلك / استخدام منزلي</option>
+          <option>أخرى</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button type="button" onclick="backToStep1()" style="background:#eee;color:#333;border:none;padding:12px 18px;border-radius:10px;font-weight:800;cursor:pointer;">⬅️ رجوع</button>
+      <button type="button" class="wa-order-btn" style="flex:1;" onclick="sendWhatsAppFinal()">💬 إرسال الطلب عبر واتساب</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// إعدادات فايربيس السحابية الخاصة بمشروعك
+const firebaseConfig = {
+  apiKey: "AIzaSyCHET-0umS1y21hX3",
+  authDomain: "dana-3cb79.firebaseapp.com",
+  databaseURL: "https://dana-3cb79-default-rtdb.firebaseio.com",
+  projectId: "dana-3cb79",
+  storageBucket: "dana-3cb79.appspot.com",
+  messagingSenderId: "103770118132",
+  appId: "1:103770118132:web:7c8",
+  measurementId: "G-5GHT40M397"
+};
+
+// تهيئة فايربيس وقاعدة البيانات
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let isAdminLoggedIn = localStorage.getItem('dana_admin_logged') === 'true';
+let currentActiveFilter = 'all';
+let productsObj = {};
+let products = [];
+let currentSlideIndex = 0;
+let slideInterval = null;
+
+function showToast(msg, type='success') {
+  const container = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type === 'error' ? 'toast-error' : 'toast-success'}`;
+  t.innerText = msg;
+  container.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// جلب المنتجات السحابية بشكل حي ومباشر
+db.ref('products').on('value', (snapshot) => {
+  const data = snapshot.val();
+  productsObj = data || {};
+  products = data ? Object.values(data) : [];
+  renderProducts();
+  renderSlider();
+});
+
+function openAdminModal() {
+  if (isAdminLoggedIn) {
+    if(confirm('هل تريد تسجيل الخروج من حساب المشرف؟')) {
+      isAdminLoggedIn = false;
+      localStorage.removeItem('dana_admin_logged');
+      updateAdminUI();
+      renderProducts();
+      renderSlider();
+      showToast('تم تسجيل الخروج بنجاح');
+    }
+  } else {
+    document.getElementById('adminModal').classList.add('active');
+  }
+}
+
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.remove('active');
+}
+
+function verifyAdmin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value.trim();
+  
+  if (u === 'loaiy' && p === 'zzxxccvvbbnnmm1234567') {
+    isAdminLoggedIn = true;
+    localStorage.setItem('dana_admin_logged', 'true');
+    closeAdminModal();
+    updateAdminUI();
+    renderProducts();
+    renderSlider();
+    showToast('أهلاً بك يا لؤي! تم تسجيل الدخول بصلاحيات الأدمن بنجاح');
+  } else {
+    showToast('اسم المستخدم أو كلمة المرور غير صحيحة!', 'error');
+  }
+}
+
+function updateAdminUI() {
+  const mainAddBtn = document.getElementById('mainAddBtn');
+  const backupBtn = document.getElementById('backupBtn');
+  const adminNavBtn = document.getElementById('adminNavBtn');
+  
+  if (isAdminLoggedIn) {
+    mainAddBtn.style.display = 'inline-flex';
+    backupBtn.style.display = 'inline-flex';
+    adminNavBtn.innerText = '🚪 خروج (Admin)';
+    adminNavBtn.className = 'logout-admin-btn';
+  } else {
+    mainAddBtn.style.display = 'none';
+    backupBtn.style.display = 'none';
+    adminNavBtn.innerText = '👑 Admin';
+    adminNavBtn.className = 'admin-login-btn';
+  }
+}
+
+// دالة عرض السلايدر المتحرك تلقائياً كل 3 ثوانٍ
+function renderSlider() {
+  const container = document.getElementById('sliderContainer');
+  const dotsContainer = document.getElementById('sliderDots');
+  const keys = Object.keys(productsObj);
+
+  if (keys.length === 0) {
+    container.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--accent-gold);font-size:13px">أضف منتجاتك لتظهر هنا في لوحة العرض الكبرى</div>`;
+    dotsContainer.innerHTML = '';
+    return;
+  }
+
+  let slidesHtml = '';
+  let dotsHtml = '';
+
+  keys.forEach((key, index) => {
+    const p = productsObj[key];
+    const imgSrc = p.media && p.media.length > 0 ? p.media[0] : 'logo.png';
+    slidesHtml += `
+      <div class="slide ${index === 0 ? 'active' : ''}" onclick="openOrderModal('${key}')">
+        <img src="${imgSrc}" style="width:140px;height:140px;object-fit:contain;background:#fff;border-radius:12px;padding:6px;border:1px solid var(--accent-gold)">
+        <div style="flex:1">
+          <span style="font-size:10px;background:rgba(255,255,255,0.15);padding:3px 8px;border-radius:6px;color:var(--accent-gold);font-weight:800">${p.category}</span>
+          <h3 style="font-size:18px;color:#fff;margin:6px 0;font-weight:900">${p.name}</h3>
+          <p style="font-size:12px;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.desc || 'جودة غذائية فاخرة من دانة وعافية فودز.'}</p>
+        </div>
+      </div>
+    `;
+    dotsHtml += `<div class="slider-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide(${index})"></div>`;
+  });
+
+  container.innerHTML = slidesHtml;
+  dotsContainer.innerHTML = dotsHtml;
+
+  if (slideInterval) clearInterval(slideInterval);
+  slideInterval = setInterval(() => {
+    nextSlide();
+  }, 3000); // التقليب كل 3 ثوانٍ تماماً
+}
+
+function showSlide(index) {
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.slider-dot');
+  if (slides.length === 0) return;
+
+  if (index >= slides.length) currentSlideIndex = 0;
+  else if (index < 0) currentSlideIndex = slides.length - 1;
+  else currentSlideIndex = index;
+
+  slides.forEach((s, i) => {
+    s.classList.remove('active');
+    if (i === currentSlideIndex) s.classList.add('active');
+  });
+
+  dots.forEach((d, i) => {
+    d.classList.remove('active');
+    if (i === currentSlideIndex) d.classList.add('active');
+  });
+}
+
+function nextSlide() {
+  showSlide(currentSlideIndex + 1);
+}
+
+function prevSlide() {
+  showSlide(currentSlideIndex - 1);
+}
+
+function currentSlide(index) {
+  showSlide(index);
+}
+
+function renderProducts() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  
+  const keys = Object.keys(productsObj);
+  const filteredKeys = keys.filter(k => {
+    const p = productsObj[k];
+    return currentActiveFilter === 'all' || p.category === currentActiveFilter;
+  });
+
+  if (filteredKeys.length === 0) {
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('productCount').innerText = `0 منتج`;
+    return;
+  }
+  document.getElementById('emptyState').style.display = 'none';
+
+  filteredKeys.forEach((key) => {
+    const p = productsObj[key];
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    
+    let detailsHtml = '';
+    if (p.category === 'بهارات') {
+      detailsHtml = `
+        <div class="weight-tag">وزن العبوة: ${p.itemWeight || '-'}</div>
+        <div class="weight-tag">العدد بالعلبة: ${p.sachetsPerBox || '-'}</div>
+        <div class="weight-tag">العلب بالكرتونة: ${p.boxesPerCarton || '-'}</div>
+        <div class="weight-tag">وزن الكرتونة: ${p.cartonWeight || '-'}</div>
+      `;
+    } else {
+      detailsHtml = `
+        <div class="weight-tag">التعبئة: ${p.packType || 'عبوة'}</div>
+        <div class="weight-tag">${p.category === 'مخللات' || p.category === 'اعشاب' ? 'وزن البرطمان' : 'وزن الكيس'}: ${p.itemWeight || '-'}</div>
+        <div class="weight-tag">العدد بالكرتونة: ${p.cartonCount || '-'}</div>
+        <div class="weight-tag">وزن الكرتونة: ${p.cartonWeight || '-'}</div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="card-img-container" onclick="openOrderModal('${key}')">
+        <img src="${p.media && p.media.length > 0 ? p.media[0] : 'logo.png'}" alt="${p.name}">
+      </div>
+      <div class="card-body" onclick="openOrderModal('${key}')">
+        <div style="font-size:10px;color:var(--primary-color);font-weight:800;background:#F0F6E8;padding:2px 8px;border-radius:6px;width:fit-content;margin-bottom:6px;">${p.category}</div>
+        <h3 class="card-name">${p.name}</h3>
+        ${p.nameEn ? `<div style="font-size:10px;color:#aaa;margin-bottom:4px;">${p.nameEn}</div>` : ''}
+        <div class="weights">${detailsHtml}</div>
+        <p class="card-desc">${p.desc || ''}</p>
+        <div class="card-footer">
+          <button type="button" class="btn-card-order" onclick="event.stopPropagation(); openOrderModal('${key}')">💬 اطلب عبر واتساب</button>
+          <div class="card-actions" style="display:${isAdminLoggedIn ? 'flex' : 'none'};">
+            <button type="button" class="btn-card-edit" title="تعديل المنتج" onclick="event.stopPropagation(); editProduct('${key}')">✏️</button>
+            <button type="button" class="btn-card-del" title="إزالة المنتج" onclick="event.stopPropagation(); deleteProduct('${key}')">🗑️</button>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  document.getElementById('productCount').innerText = `${filteredKeys.length} منتج`;
+}
+
+// أزرار الفلترة للأقسام
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentActiveFilter = this.getAttribute('data-filter');
+    renderProducts();
+  });
+});
+
+function openAddModal() {
+  if (!isAdminLoggedIn) {
+    showToast('يجب تسجيل الدخول كأدمن أولاً لإضافة منتجات!', 'error');
+    openAdminModal();
+    return;
+  }
+  document.getElementById('editProductKey').value = '';
+  document.getElementById('fName').value = '';
+  document.getElementById('fNameEn').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('mediaPreviewList').innerHTML = '';
+  window.uploadedMediaArray = [];
+  
+  const firstCatBtn = document.querySelector('.cat-btn[data-cat="بقوليات"]');
+  if(firstCatBtn) selectCat(firstCatBtn);
+
+  document.getElementById('addModal').classList.add('active');
+}
+
+function closeAddModal() {
+  document.getElementById('addModal').classList.remove('active');
+}
+
+// ضبط الحقول بناءً على القسم المختار
+function selectCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat = btn.getAttribute('data-cat');
+  document.getElementById('fCat').value = cat;
+  
+  const container = document.getElementById('dynamicFieldsContainer');
+  let defaultPack = 'عبوة';
+
+  if (cat === 'بقوليات') {
+    defaultPack = 'كيس';
+    container.innerHTML = `
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكيس</label>
+        <input id="fItemWeight" class="form-input" placeholder="مثال: 900 جرام">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد الأكياس في الكرتونة</label>
+        <input id="fCartonCount" class="form-input" placeholder="مثال: 20 كيس">
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكرتونة الإجمالي</label>
+        <input id="fCartonWeight" class="form-input" placeholder="مثال: 18 كيلو">
+      </div>
+    `;
+  } else if (cat === 'مخللات') {
+    defaultPack = 'برطمان';
+    container.innerHTML = `
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن البرطمان</label>
+        <input id="fItemWeight" class="form-input" placeholder="مثال: 600 جرام">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد البرطمانات في الكرتونة</label>
+        <input id="fCartonCount" class="form-input" placeholder="مثال: 12 برطمان">
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكرتونة الإجمالي</label>
+        <input id="fCartonWeight" class="form-input" placeholder="مثال: 8 كيلو">
+      </div>
+    `;
+  } else if (cat === 'اعشاب') {
+    defaultPack = 'برطمان';
+    container.innerHTML = `
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن البرطمان</label>
+        <input id="fItemWeight" class="form-input" placeholder="مثال: 500 جرام">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد البرطمانات في الكرتونة</label>
+        <input id="fCartonCount" class="form-input" placeholder="مثال: 10 برطمان">
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكرتونة الإجمالي</label>
+        <input id="fCartonWeight" class="form-input" placeholder="مثال: 6 كيلو">
+      </div>
+    `;
+  } else if (cat === 'بهارات') {
+    defaultPack = 'عبوة بهارات';
+    container.innerHTML = `
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن عبوة البهارات</label>
+        <input id="fItemWeight" class="form-input" placeholder="مثال: 100 جرام">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد العبوات في العلبة</label>
+        <input id="fSachetsPerBox" class="form-input" placeholder="مثال: 24 عبوة">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد العلب في الكرتونة</label>
+        <input id="fBoxesPerCarton" class="form-input" placeholder="مثال: 12 علبة">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكرتونة الإجمالي</label>
+        <input id="fCartonWeight" class="form-input" placeholder="مثال: 10 كيلو">
+      </div>
+    `;
+  } else {
+    defaultPack = 'عبوة';
+    container.innerHTML = `
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن العبوة</label>
+        <input id="fItemWeight" class="form-input" placeholder="مثال: 500 جرام">
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">عدد العبوات في الكرتونة</label>
+        <input id="fCartonCount" class="form-input" placeholder="مثال: 12 عبوة">
+      </div>
+      <div style="grid-column: span 2;">
+        <label style="font-size:11px;font-weight:800;display:block;margin-bottom:3px">وزن الكرتونة الإجمالي</label>
+        <input id="fCartonWeight" class="form-input" placeholder="مثال: 10 كيلو">
+      </div>
+    `;
+  }
+  document.getElementById('fPackType').value = defaultPack;
+}
+
+document.getElementById('fMediaFile').addEventListener('change', function(e) {
+  const files = e.target.files;
+  window.uploadedMediaArray = window.uploadedMediaArray || [];
+  const previewList = document.getElementById('mediaPreviewList');
+  
+  for (let file of files) {
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      window.uploadedMediaArray.push(evt.target.result);
+      const thumb = document.createElement('div');
+      thumb.className = 'media-thumb-preview';
+      thumb.innerHTML = `<img src="${evt.target.result}">`;
+      previewList.appendChild(thumb);
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function saveProduct() {
+  if (!isAdminLoggedIn) return;
+  const name = document.getElementById('fName').value.trim();
+  const nameEn = document.getElementById('fNameEn').value.trim();
+  const category = document.getElementById('fCat').value;
+  const packType = document.getElementById('fPackType').value;
+  const desc = document.getElementById('fDesc').value.trim();
+  
+  const itemWeight = document.getElementById('fItemWeight') ? document.getElementById('fItemWeight').value.trim() : '';
+  const cartonCount = document.getElementById('fCartonCount') ? document.getElementById('fCartonCount').value.trim() : '';
+  const cartonWeight = document.getElementById('fCartonWeight') ? document.getElementById('fCartonWeight').value.trim() : '';
+  const sachetsPerBox = document.getElementById('fSachetsPerBox') ? document.getElementById('fSachetsPerBox').value.trim() : '';
+  const boxesPerCarton = document.getElementById('fBoxesPerCarton') ? document.getElementById('fBoxesPerCarton').value.trim() : '';
+  
+  if (!name) {
+    showToast('برجاء كتابة اسم المنتج!', 'error');
+    return;
+  }
+
+  const editKey = document.getElementById('editProductKey').value;
+  const media = window.uploadedMediaArray || [];
+
+  const productData = {
+    name, nameEn, category, packType, desc, itemWeight, cartonCount, cartonWeight, sachetsPerBox, boxesPerCarton,
+    media: media.length > 0 ? media : ['logo.png']
+  };
+
+  if (editKey !== '') {
+    db.ref('products/' + editKey).set(productData);
+    showToast('تم تعديل المنتج بنجاح في السحابة!');
+  } else {
+    db.ref('products').push().set(productData);
+    showToast('تم إضافة المنتج بنجاح للسحابة!');
+  }
+
+  closeAddModal();
+}
+
+function deleteProduct(key) {
+  if (!isAdminLoggedIn) return;
+  const prodName = productsObj[key] ? productsObj[key].name : 'هذا المنتج';
+  if (confirm(`هل أنت متأكد من إزالة وخذف (${prodName}) غير المرغوب فيه؟`)) {
+    db.ref('products/' + key).remove();
+    showToast('تم إزالة المنتج بنجاح من السحابة');
+  }
+}
+
+function editProduct(key) {
+  if (!isAdminLoggedIn) return;
+  const p = productsObj[key];
+  if (!p) return;
+
+  document.getElementById('editProductKey').value = key;
+  document.getElementById('fName').value = p.name || '';
+  document.getElementById('fNameEn').value = p.nameEn || '';
+  document.getElementById('fDesc').value = p.desc || '';
+  document.getElementById('fCat').value = p.category;
+  document.getElementById('fPackType').value = p.packType || 'كيس';
+  
+  const catBtn = document.querySelector(`.cat-btn[data-cat="${p.category}"]`);
+  if (catBtn) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    catBtn.classList.add('active');
+    selectCat(catBtn);
+  }
+
+  if (document.getElementById('fItemWeight')) document.getElementById('fItemWeight').value = p.itemWeight || '';
+  if (document.getElementById('fCartonCount')) document.getElementById('fCartonCount').value = p.cartonCount || '';
+  if (document.getElementById('fCartonWeight')) document.getElementById('fCartonWeight').value = p.cartonWeight || '';
+  if (document.getElementById('fSachetsPerBox')) document.getElementById('fSachetsPerBox').value = p.sachetsPerBox || '';
+  if (document.getElementById('fBoxesPerCarton')) document.getElementById('fBoxesPerCarton').value = p.boxesPerCarton || '';
+
+  window.uploadedMediaArray = p.media || [];
+  const previewList = document.getElementById('mediaPreviewList');
+  previewList.innerHTML = '';
+  window.uploadedMediaArray.forEach(m => {
+    const thumb = document.createElement('div');
+    thumb.className = 'media-thumb-preview';
+    thumb.innerHTML = `<img src="${m}">`;
+    previewList.appendChild(thumb);
+  });
+
+  document.getElementById('addModal').classList.add('active');
+}
+
+// نظام طلب المنتجات عبر الواتساب
+let selectedProductForOrder = null;
+let currentSelectedPack = 'وحدة مفردة';
+
+function openOrderModal(key) {
+  const p = productsObj[key];
+  if (!p) return;
+  selectedProductForOrder = p;
+  
+  document.getElementById('oName1').innerText = `طلب: ${p.name}`;
+  document.getElementById('oCat1').innerText = p.category;
+  document.getElementById('oPackType1').innerText = `تعبئة: ${p.packType || 'عبوة'}`;
+  document.getElementById('oDesc1').innerText = p.desc || 'منتج عالي الجودة من دانة وعافية فودز.';
+  
+  const imgContainer = document.getElementById('oImgContainer');
+  const imgSrc = p.media && p.media.length > 0 ? p.media[0] : 'logo.png';
+  imgContainer.innerHTML = `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:contain;">`;
+  
+  document.getElementById('oQty').value = 1;
+  updateQtyLabel();
+  
+  document.getElementById('orderModalStep1').classList.add('active');
+}
+
+function closeOrderModal() {
+  document.getElementById('orderModalStep1').classList.remove('active');
+  document.getElementById('orderModalStep2').classList.remove('active');
+}
+
+function stepQty(val) {
+  const input = document.getElementById('oQty');
+  let current = parseInt(input.value) || 1;
+  current += val;
+  if (current < 1) current = 1;
+  input.value = current;
+  updateQtyLabel();
+}
+
+function selectPack(btn) {
+  document.querySelectorAll('.pack-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentSelectedPack = btn.getAttribute('data-pack');
+  updateQtyLabel();
+}
+
+function updateQtyLabel() {
+  const qty = document.getElementById('oQty').value;
+  document.getElementById('oQtyLabel').innerText = `${qty} ${currentSelectedPack}`;
+}
+
+function goToStep2() {
+  const qty = document.getElementById('oQty').value;
+  let detailsText = '';
+  if (selectedProductForOrder.category === 'بهارات') {
+    detailsText = `<br>وزن العبوة: ${selectedProductForOrder.itemWeight || '-'} | العبوات بالعلبة: ${selectedProductForOrder.sachetsPerBox || '-'} | العلب بالكرتونة: ${selectedProductForOrder.boxesPerCarton || '-'}`;
+  } else {
+    detailsText = `<br>نوع التعبئة: ${selectedProductForOrder.packType} | الوزن: ${selectedProductForOrder.itemWeight || '-'} | العدد بالكرتونة: ${selectedProductForOrder.cartonCount || '-'}`;
+  }
+  
+  const summary = `المنتج المطلـوب: <strong>${selectedProductForOrder.name}</strong><br>الكميـة: <strong>${qty} (${currentSelectedPack})</strong>${detailsText}`;
+  document.getElementById('summaryBox').innerHTML = summary;
+  
+  document.getElementById('orderModalStep1').classList.remove('active');
+  document.getElementById('orderModalStep2').classList.add('active');
+}
+
+function backToStep1() {
+  document.getElementById('orderModalStep2').classList.remove('active');
+  document.getElementById('orderModalStep1').classList.add('active');
+}
+
+function sendWhatsAppFinal() {
+  const cName = document.getElementById('cName').value.trim();
+  const cPhone = document.getElementById('cPhone').value.trim();
+  const cAddress = document.getElementById('cAddress').value.trim();
+  const cBusiness = document.getElementById('cBusiness').value;
+  const qty = document.getElementById('oQty').value;
+
+  if (!cName || !cPhone || !cAddress) {
+    showToast('برجاء إكمال جميع بيانات العميل والتسليم!', 'error');
+    return;
+  }
+
+  let specInfo = '';
+  if (selectedProductForOrder.category === 'بهارات') {
+    specInfo = `📦 نوع التعبئة: بهارات
+⚖️ وزن العبوة: ${selectedProductForOrder.itemWeight || '-'}
+📦 العبوات بالعلبة: ${selectedProductForOrder.sachetsPerBox || '-'}
+📦 العلب بالكرتونة: ${selectedProductForOrder.boxesPerCarton || '-'}
+⚖️ وزن الكرتونة: ${selectedProductForOrder.cartonWeight || '-'}`;
+  } else {
+    const weightLabel = selectedProductForOrder.category === 'مخللات' || selectedProductForOrder.category === 'اعشاب' ? 'وزن البرطمان' : 'وزن الكيس';
+    specInfo = `📦 نوع التعبئة: ${selectedProductForOrder.packType || 'عبوة'}
+⚖️ ${weightLabel}: ${selectedProductForOrder.itemWeight || '-'}
+📦 العدد في الكرتونة: ${selectedProductForOrder.cartonCount || '-'}
+⚖️ وزن الكرتونة: ${selectedProductForOrder.cartonWeight || '-'}`;
+  }
+
+  const msg = `مرحباً، أرغب في إتمام طلب توريد من شركة دانة وعافية فودز:
+📦 المنتج: ${selectedProductForOrder.name}
+📊 القسم: ${selectedProductForOrder.category}
+🔢 الكمية: ${qty} (${currentSelectedPack})
+${specInfo}
+
+👤 اسم العميل: ${cName}
+📞 رقم الهاتف: ${cPhone}
+📍 عنوان التسليم: ${cAddress}
+🏢 طبيعة النشاط: ${cBusiness}`;
+
+  const waUrl = `https://wa.me/201090484624?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, '_blank');
+  closeOrderModal();
+  showToast('تم تحويلك إلى واتساب لإرسال الطلب بنجاح!');
+}
+
+function exportData() {
+  if (!isAdminLoggedIn) return;
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(productsObj));
+  const dlAnchor = document.createElement('a');
+  dlAnchor.setAttribute("href", dataStr);
+  dlAnchor.setAttribute("download", "dana_products_backup.json");
+  document.body.appendChild(dlAnchor);
+  dlAnchor.click();
+  dlAnchor.remove();
+}
+
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(card => {
+    const name = card.querySelector('.card-name').innerText.toLowerCase();
+    card.style.display = name.includes(query) ? 'flex' : 'none';
+  });
+}
+
+// تهيئة أولية
+updateAdminUI();
+</script>
+</body>
+</html>
